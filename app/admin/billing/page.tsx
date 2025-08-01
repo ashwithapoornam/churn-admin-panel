@@ -19,7 +19,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { MoreHorizontal, CreditCard, DollarSign, TrendingUp, Users } from "lucide-react"
@@ -29,7 +28,7 @@ const mockSubscriptions = [
     id: "1",
     customer: "Acme Corp",
     email: "billing@acme.com",
-    plan: "Business",
+    plan: "Premium",
     status: "active",
     amount: "$99/month",
     nextBilling: "2024-02-15",
@@ -39,7 +38,7 @@ const mockSubscriptions = [
     id: "2",
     customer: "TechStart Inc",
     email: "admin@techstart.com",
-    plan: "Small",
+    plan: "Basic",
     status: "active",
     amount: "$29/month",
     nextBilling: "2024-02-10",
@@ -49,9 +48,9 @@ const mockSubscriptions = [
     id: "3",
     customer: "DataCorp",
     email: "finance@datacorp.com",
-    plan: "Free",
+    plan: "Basic",
     status: "cancelled",
-    amount: "$0/month",
+    amount: "$29/month",
     nextBilling: "-",
     created: "2023-10-01",
   },
@@ -160,9 +159,9 @@ export default function BillingManagement() {
                       <TableCell>
                         <Badge
                           variant={
-                            subscription.plan === "Business"
+                            subscription.plan === "Premium"
                               ? "default"
-                              : subscription.plan === "Small"
+                              : subscription.plan === "Basic"
                                 ? "secondary"
                                 : "outline"
                           }
@@ -191,8 +190,6 @@ export default function BillingManagement() {
                             <DropdownMenuItem>View Details</DropdownMenuItem>
                             <DropdownMenuItem>Update Plan</DropdownMenuItem>
                             <DropdownMenuItem>View Invoices</DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem className="text-destructive">Cancel Subscription</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>

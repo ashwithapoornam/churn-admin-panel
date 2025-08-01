@@ -17,15 +17,7 @@ import {
 } from "@/components/ui/breadcrumb"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Search, MoreHorizontal, UserCheck, Eye, Edit, Trash2 } from "lucide-react"
+import { Search } from "lucide-react"
 
 const mockUsers = [
   {
@@ -39,7 +31,7 @@ const mockUsers = [
     createdAt: "2023-06-01",
     isNewlyAdded: false,
     isChurned: false,
-    teams: ["Team Alpha", "Team Beta"],
+    projects: ["Project Alpha", "Project Beta"],
   },
   {
     id: "2",
@@ -52,7 +44,7 @@ const mockUsers = [
     createdAt: "2023-08-15",
     isNewlyAdded: false,
     isChurned: true,
-    teams: ["Team Gamma"],
+    projects: ["Project Gamma"],
   },
   {
     id: "3",
@@ -65,14 +57,17 @@ const mockUsers = [
     createdAt: "2024-01-10",
     isNewlyAdded: true,
     isChurned: false,
-    teams: ["Team Alpha"],
+    projects: ["Project Alpha"],
   },
 ]
+
+const allProjects = ["Project Alpha", "Project Beta", "Project Gamma", "Project Delta", "Project Echo"]
 
 export default function UserManagement() {
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
   const [roleFilter, setRoleFilter] = useState("all")
+  const [projectFilter, setProjectFilter] = useState("all")
 
   const filteredUsers = mockUsers.filter((user) => {
     const matchesSearch =
@@ -80,8 +75,9 @@ export default function UserManagement() {
       user.email.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesStatus = statusFilter === "all" || user.status === statusFilter
     const matchesRole = roleFilter === "all" || user.role === roleFilter
+    const matchesProject = projectFilter === "all" || user.projects.includes(projectFilter)
 
-    return matchesSearch && matchesStatus && matchesRole
+    return matchesSearch && matchesStatus && matchesRole && matchesProject
   })
 
   return (
@@ -151,6 +147,19 @@ export default function UserManagement() {
                   <SelectItem value="readonly">Read-only</SelectItem>
                 </SelectContent>
               </Select>
+              <Select value={projectFilter} onValueChange={setProjectFilter}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Filter by project" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Projects</SelectItem>
+                  {allProjects.map((project) => (
+                    <SelectItem key={project} value={project}>
+                      {project}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="rounded-md border">
@@ -162,8 +171,7 @@ export default function UserManagement() {
                     <TableHead>Role</TableHead>
                     <TableHead>Country</TableHead>
                     <TableHead>Last Login</TableHead>
-                    <TableHead>Teams</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                    <TableHead>Projects</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -207,42 +215,12 @@ export default function UserManagement() {
                       <TableCell>{user.lastLogin}</TableCell>
                       <TableCell>
                         <div className="flex flex-wrap gap-1">
-                          {user.teams.map((team, index) => (
+                          {user.projects.map((project, index) => (
                             <Badge key={index} variant="outline" className="text-xs">
-                              {team}
+                              {project}
                             </Badge>
                           ))}
                         </div>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
-                              <span className="sr-only">Open menu</span>
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem>
-                              <Eye className="mr-2 h-4 w-4" />
-                              View Details
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                              <UserCheck className="mr-2 h-4 w-4" />
-                              Impersonate User
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                              <Edit className="mr-2 h-4 w-4" />
-                              Edit User
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem className="text-destructive">
-                              <Trash2 className="mr-2 h-4 w-4" />
-                              Delete User
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
                       </TableCell>
                     </TableRow>
                   ))}

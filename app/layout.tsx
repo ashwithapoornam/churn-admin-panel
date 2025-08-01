@@ -5,13 +5,14 @@ import "./globals.css"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { AdminSidebar } from "@/components/admin-sidebar"
 import { Toaster } from "@/components/ui/toaster"
+import { ThemeProvider } from "@/components/theme-provider"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "ChurnPredict Admin Panel",
   description: "Internal administration panel for churn prediction platform",
-    generator: 'v0.dev'
+  generator: "v0.dev",
 }
 
 export default function RootLayout({
@@ -20,13 +21,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <SidebarProvider defaultOpen={true}>
-          <AdminSidebar />
-          <main className="flex-1 overflow-auto">{children}</main>
-          <Toaster />
-        </SidebarProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <SidebarProvider defaultOpen={true}>
+            <AdminSidebar />
+            <main className="flex-1 overflow-auto">{children}</main>
+            <Toaster />
+          </SidebarProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

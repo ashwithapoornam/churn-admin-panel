@@ -1,19 +1,6 @@
 "use client"
 
-import {
-  Users,
-  Building2,
-  CreditCard,
-  Database,
-  Settings,
-  Mail,
-  FileText,
-  BarChart3,
-  Shield,
-  Home,
-  Bell,
-  LogOut,
-} from "lucide-react"
+import { Users, CreditCard, Database, Mail, FileText, Shield, Home, LogOut } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
@@ -39,6 +26,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 const navigationItems = [
   {
@@ -52,24 +40,14 @@ const navigationItems = [
     icon: Users,
   },
   {
-    title: "Teams & Projects",
-    url: "/admin/teams",
-    icon: Building2,
-  },
-  {
-    title: "Billing & Subscriptions",
-    url: "/admin/billing",
-    icon: CreditCard,
-  },
-  {
     title: "Data Connectors",
     url: "/admin/connectors",
     icon: Database,
   },
   {
-    title: "Project Settings",
-    url: "/admin/settings",
-    icon: Settings,
+    title: "Billing & Subscriptions",
+    url: "/admin/billing",
+    icon: CreditCard,
   },
   {
     title: "Email Management",
@@ -81,11 +59,6 @@ const navigationItems = [
     url: "/admin/logs",
     icon: FileText,
   },
-  {
-    title: "Analytics",
-    url: "/admin/analytics",
-    icon: BarChart3,
-  },
 ]
 
 export function AdminSidebar() {
@@ -94,14 +67,17 @@ export function AdminSidebar() {
   return (
     <Sidebar variant="inset">
       <SidebarHeader>
-        <div className="flex items-center gap-2 px-4 py-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Shield className="h-4 w-4" />
+        <div className="flex items-center justify-between px-4 py-2">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+              <Shield className="h-4 w-4" />
+            </div>
+            <div className="grid flex-1 text-left text-sm leading-tight">
+              <span className="truncate font-semibold">ChurnPredict</span>
+              <span className="truncate text-xs text-muted-foreground">Admin Panel</span>
+            </div>
           </div>
-          <div className="grid flex-1 text-left text-sm leading-tight">
-            <span className="truncate font-semibold">ChurnPredict</span>
-            <span className="truncate text-xs text-muted-foreground">Admin Panel</span>
-          </div>
+          <ThemeToggle />
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -160,15 +136,6 @@ export function AdminSidebar() {
                     </div>
                   </div>
                 </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Bell className="mr-2 h-4 w-4" />
-                  Notifications
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Settings className="mr-2 h-4 w-4" />
-                  Account Settings
-                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <LogOut className="mr-2 h-4 w-4" />

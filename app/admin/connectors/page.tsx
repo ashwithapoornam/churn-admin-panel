@@ -48,6 +48,8 @@ import {
   Users,
   Activity,
 } from "lucide-react"
+// Add this import at the top
+import { CreateProjectDialog } from "./create-project-dialog"
 
 const mockConnectors = [
   {
@@ -150,6 +152,8 @@ const mockConnectors = [
 export default function ConnectorsManagement() {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [selectedProject, setSelectedProject] = useState(null)
+  // Add this state after the existing useState declarations
+  const [isCreateProjectDialogOpen, setIsCreateProjectDialogOpen] = useState(false)
 
   return (
     <SidebarInset>
@@ -178,7 +182,10 @@ export default function ConnectorsManagement() {
             <p className="text-muted-foreground">Manage data source connections and synchronization</p>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline">Create New Project</Button>
+            {/* Replace the "Create New Project" button with: */}
+            <Button variant="outline" onClick={() => setIsCreateProjectDialogOpen(true)}>
+              Create New Project
+            </Button>
             <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
               <DialogTrigger asChild>
                 <Button>
@@ -424,6 +431,8 @@ export default function ConnectorsManagement() {
           </CardContent>
         </Card>
       </div>
+      {/* Add the dialog component before the closing </SidebarInset> tag: */}
+      <CreateProjectDialog open={isCreateProjectDialogOpen} onOpenChange={setIsCreateProjectDialogOpen} />
     </SidebarInset>
   )
 }
